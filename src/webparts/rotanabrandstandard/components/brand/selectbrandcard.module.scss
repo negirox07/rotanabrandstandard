@@ -1,0 +1,60 @@
+.brandCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-radius: 6px;
+    background: #fff;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    border-top: 6px solid #e8b159;
+    box-shadow: 0px 2px 6px 0px #00000040;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.brandCardLeft {
+    flex: 1;
+    min-width: 250px;
+}
+
+.brandCardTitle {
+    font-size: 18px;
+    color: #004a99;
+    margin-bottom: 4px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.brandCardStars {
+    color: #f4b400;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.brandCardDesc {
+    font-size: 14px;
+    color: #005595;
+    line-height: 1.5;
+}
+
+.brandCardRight {
+    display: flex;
+    gap: 20px;
+    text-align: left;
+    flex-wrap: wrap;
+}
+
+.brandCardLabel {
+    font-size: 13px;
+    color: #555;
+    display: block;
+}
+
+.brandCardValue {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.brandCardValueBold {
+    font-weight: 700;
+}

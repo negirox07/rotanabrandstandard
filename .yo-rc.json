@@ -1,0 +1,21 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "16.19.1",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.4.1"
+    },
+    "version": "1.16.1",
+    "libraryName": "brandstandard",
+    "libraryId": "51cc8f1b-afd0-4ab7-b5d7-b42b062114c6",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "brandstandard",
+    "solutionShortDescription": "brandstandard description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

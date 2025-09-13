@@ -1,0 +1,109 @@
+.header {
+  background: linear-gradient(to right, #064c8c, #116bb7);
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position: left top, right bottom, center;
+  background-size: 36%, 25%, cover;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.headerh1 {
+  margin: 0;
+  font-size: 34px;
+}
+
+.headerP {
+  margin: 10px 0 10px;
+  font-size: 22px;
+}
+
+.statsSection {
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  text-align: center;
+}
+
+.stat {
+  font-size: 16px;
+}
+
+.statSpan {
+  display: block;
+  font-size: 36px;
+  font-weight: bold;
+  color: #FFD700;
+  margin-bottom: 5px;
+}
+
+.searchBox {
+  position: relative;
+  width: 100%; 
+  max-width: 600px; 
+  margin: 20px auto;
+}
+
+.searchBoxInput {
+  width: 100%;
+  padding: 12px 20px 12px 60px; 
+  border-radius: 50px;
+  border: 1px solid #5ca0d3;
+  background: #3377aa;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  height: 20px;
+}
+
+.searchBoxInput::placeholder {
+  color: #fff;
+  opacity: 1;
+  padding:7px;
+  font-size: 16px;
+}
+
+
+.searchIcon {
+  border:none;
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAYCAYAAAAPtVbGAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEVSURBVHgB5VXREYIwDA1OwAZ2BEboKIzABrABboArOAFsgE6AG9QNanumZ1CkSTn98d3lSo+XvDZtUoC/gLU2d1Y7650Z+4DBeeVMwRZgkBB4DTWkwDl2JMjgTPtdkd35+ZFwOqlAS9KiI1wvNiG/BaZASQQU06ewz7RqjsOI5AoEcPwG/foYUSFxAiHwnMJu1Ov/HfkucLyAEFmW3dxwwqnmiJwhDVcc1ZrI17BbWMke0hDPBDl4EwpPAlIvKkbskdiATKBCv5FD1mQ3BTCAGQjXt+T4eKdDqBdmWzGsQlxwnjU/u9wge/sOWUcmrWINBs+j2SKkMMhg54/WgIHzD4tKe2OYi6JCoiabIsS+nVuEFPwad7mbCNCLUVEDAAAAAElFTkSuQmCC) no-repeat center center;
+  background-size: contain;
+  cursor:default;
+}
+
+@media (max-width: 992px) {
+  .statsSection {
+    gap: 40px;
+    padding: 20px 10px;
+  }
+  .searchBox::before {
+    left:6%;
+  }
+
+  .searchBoxInput {
+    width: 80%;
+  }
+}
+
+@media (max-width: 768px) {
+  .statsSection{
+    gap: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 20px 10px;
+  }
+  .statsSection {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

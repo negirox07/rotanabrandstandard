@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "brandstandard-client-side-solution",
+    "id": "51cc8f1b-afd0-4ab7-b5d7-b42b062114c6",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.16.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "brandstandard description"
+      },
+      "longDescription": {
+        "default": "brandstandard description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "brandstandard Feature",
+        "description": "The feature that activates elements of the brandstandard solution.",
+        "id": "78d84675-d1f4-4eeb-82eb-4e14a01534d7",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/rotana-brand-standard-webpart.sppkg"
+  }
+}
