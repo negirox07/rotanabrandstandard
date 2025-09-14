@@ -1,0 +1,43 @@
+/* css for one line*/
+.filterContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* space between dropdowns and search box */
+  flex-wrap: wrap;
+  margin-top: 1%;
+  /* wrap on smaller screens */
+}
+
+.searchContainer {
+  display: flex;
+  flex-grow: 1;
+  /* takes remaining width */
+}
+
+.dropDownContainers {
+  width: 25%;
+}
+
+.searchBox {
+  flex: 1;
+  /* stretch to fill available space */
+  padding: 6px 10px;
+  border: 1px solid #00559566;
+  border-radius: 6px 0 0 6px;
+  font-size: 14px;
+}
+
+.searchButton {
+  background-color: #005595;
+  background-repeat: no-repeat;
+  background-size: 50% auto;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAYCAYAAAAPtVbGAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEVSURBVHgB5VXREYIwDA1OwAZ2BEboKIzABrABboArOAFsgE6AG9QNanumZ1CkSTn98d3lSo+XvDZtUoC/gLU2d1Y7650Z+4DBeeVMwRZgkBB4DTWkwDl2JMjgTPtdkd35+ZFwOqlAS9KiI1wvNiG/BaZASQQU06ewz7RqjsOI5AoEcPwG/foYUSFxAiHwnMJu1Ov/HfkucLyAEFmW3dxwwqnmiJwhDVcc1ZrI17BbWMke0hDPBDl4EwpPAlIvKkbskdiATKBCv5FD1mQ3BTCAGQjXt+T4eKdDqBdmWzGsQlxwnjU/u9wge/sOWUcmrWINBs+j2SKkMMhg54/WgIHzD4tKe2OYi6JCoiabIsS+nVuEFPwad7mbCNCLUVEDAAAAAElFTkSuQmCC");
+  background-position: center center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #00559566;
+  border-radius: 12px;
+  margin-left: -16px;
+  flex-shrink: 0;
+}

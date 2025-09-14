@@ -10,4 +10,5 @@ export interface IRotanabrandstandardProps {
   standards: string;
   bannerImgURL: string;
   bannerImgURL2: string;
+  brandStandardHeading:string;
 }

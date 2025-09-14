@@ -16,7 +16,7 @@ export const BrandPageConstants = {
   LandingPageBannerDescription: 'LandingPageBannerDescription',
   LandingPageHotelsTitle: 'LandingPageHotelsTitle',
   LandingPageHotelsDescription: 'LandingPageHotelsDescription',
-  GridButtonText: 'View All Brands'
+  brandStandardHeading: "Brand Standards"
 }
 export const ToastrSettings = {
   WithButton: {

@@ -15,7 +15,7 @@ import { IRotanabrandstandardProps } from './components/IRotanabrandstandardProp
 import { dropDowns, textFields } from './IRotanaStandardWebpartFields';
 import { ISPHelper } from '../../services/ISPHelper';
 import { IRotanaBrandStandardWebPartProps } from './IRotanaBrandStandardWebPartProps';
-import { ListNames } from '../../models/SPConstants';
+import { BrandPageConstants, ListNames } from '../../models/SPConstants';
 import { SPHelpers } from '../../services/SPHelper';
 
 
@@ -34,6 +34,7 @@ export default class RotanabrandstandardWebPart extends BaseClientSideWebPart<IR
         departments: this.properties.departments ?? ListNames.Departments,
         standards: this.properties.standards ?? ListNames.Standards,
         configListName: this.properties.configListName ?? ListNames.ConfigurationList,
+        brandStandardHeading: this.properties.brandStandardHeading ?? BrandPageConstants.brandStandardHeading
       }
     );
 
