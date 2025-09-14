@@ -5,11 +5,17 @@ export const textFields = [
         value: '',
         placeholder: 'Enter banner image URL'
     },
-      {
+    {
         key: 'bannerImgURL2',
         label: 'Enter banner image URL',
         value: '',
         placeholder: 'Enter banner image URL'
+    },
+    {
+        key: 'brandStandardHeading',
+        label: 'Enter brand header text',
+        value: '',
+        placeholder: 'Enter brand header text'
     }
 ];
 export const dropDowns = [

@@ -11,9 +11,10 @@ import { BrandDTO } from '../../../models/BrandModel';
 import { ConfigItem } from '../../../models/ConfigModel';
 import BannerSection from './banner/BannerSection';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react';
-import { RotanaMultiSelect } from './dropdowns/RotanaMultiSelect';
-import { IReusableMultiSelectOption } from './dropdowns/IReusableSelectProps';
+/* import { RotanaMultiSelect } from './dropdowns/RotanaMultiSelect';
+import { IReusableMultiSelectOption } from './dropdowns/IReusableSelectProps'; */
 import BrandCard from './brand/SelectedBrandCard';
+import FilterBar from './filters/FilterBar';
 
 export default class Rotanabrandstandard extends React.Component<IRotanabrandstandardProps, IRotanaBrandStandardState> {
   private readonly LOG_SOURCE = "📝 RotanaBrandStandard";
@@ -141,65 +142,90 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
           bannerDescription={bannerDescription}
         />
         <div id="mainContent">
-          {this.renderFilterDropDownsAndTextBox(brandDropdownOptions, selectedBrand, departmentDropdownOptions, selectedDepartment, standardDropdownOptions, selectedStandard)}
-          <div className={styles.bottomLine}/>
-          {selectedBrandObj && <BrandCard brand={selectedBrandObj} /> }
+          {selectedBrandObj && <BrandCard brand={selectedBrandObj} />}
+          <div className={styles.bottomLine} />
+          {/*    {this.renderFilterDropDownsAndTextBox(brandDropdownOptions, selectedBrand, departmentDropdownOptions, selectedDepartment, standardDropdownOptions, selectedStandard)}
+          */}
+          <FilterBar
+            brandDropdownOptions={brandDropdownOptions}
+            selectedBrand={selectedBrand}
+            onBrandChange={(value) => this.setState({ selectedBrand: value })}
+
+            departmentDropdownOptions={departmentDropdownOptions}
+            selectedDepartment={selectedDepartment}
+            onDepartmentChange={(value) => this.setState({ selectedDepartment: value })}
+
+            standardDropdownOptions={standardDropdownOptions}
+            selectedStandard={selectedStandard}
+            onStandardChange={(value) => this.setState({ selectedStandard: value })}
+
+            searchText={this.state.searchText}
+            onSearchChange={(value) => this.setState({ searchText: value })}
+            onSearchClick={() => console.log("Search clicked")}
+          />
+          <h5 className={styles.brandh5}>{this.props.brandStandardHeading}</h5>
+          <div className={styles.bgLight}>
+            <nav className={styles.categoryFilters}>
+              <a href="#" className={styles.categoryFiltersLink + ' ' + styles.categoryFiltersLinkActive}>All <span>85</span></a>
+              <a href="#" className={styles.categoryFiltersLink}>Housekeeping <span className={styles.categoryFiltersBadge}>15</span></a>
+            </nav>
+          </div>
         </div>
 
       </section>
     );
   }
 
-  private renderFilterDropDownsAndTextBox(
-    brandDropdownOptions: IReusableMultiSelectOption[],
-    selectedBrand: string,
-    departmentDropdownOptions: IReusableMultiSelectOption[],
-    selectedDepartment: string[],
-    standardDropdownOptions: IReusableMultiSelectOption[],
-    selectedStandard: string
-  ): React.ReactNode {
-    return (
-      <div className={styles.filterContainer}>
-        <div className={styles.dropDownContainers}>
-
-          <RotanaMultiSelect
-            label="Brand"
-            options={brandDropdownOptions}
-            multiSelect={false}
-            selectedKeys={selectedBrand || ""}
-            onChange={(value) => this.setState({ selectedBrand: value as string })}
-          />
+  /*   private renderFilterDropDownsAndTextBox(
+      brandDropdownOptions: IReusableMultiSelectOption[],
+      selectedBrand: string,
+      departmentDropdownOptions: IReusableMultiSelectOption[],
+      selectedDepartment: string[],
+      standardDropdownOptions: IReusableMultiSelectOption[],
+      selectedStandard: string
+    ): React.ReactNode {
+      return (
+        <div className={styles.filterContainer}>
+          <div className={styles.dropDownContainers}>
+  
+            <RotanaMultiSelect
+              label="Brand"
+              options={brandDropdownOptions}
+              multiSelect={false}
+              selectedKeys={selectedBrand || ""}
+              onChange={(value) => this.setState({ selectedBrand: value as string })}
+            />
+          </div>
+          <div className={styles.dropDownContainers}>
+            <RotanaMultiSelect
+              label="Department"
+              options={departmentDropdownOptions}
+              multiSelect={true}
+              selectedKeys={selectedDepartment}
+              onChange={(value) =>
+                this.setState({ selectedDepartment: value as string[] })
+              }
+            />
+          </div>
+          <div className={styles.dropDownContainers}>
+            <RotanaMultiSelect
+              label="Standard"
+              options={standardDropdownOptions}
+              multiSelect={false}
+              selectedKeys={selectedStandard}
+              onChange={(value) => this.setState({ selectedStandard: value as string })}
+            />
+          </div>
+          <div className={styles.searchContainer}>
+            <input
+              type="text"
+              className={styles.searchBox}
+              placeholder="Search"
+            />
+            <button className={styles.searchButton} />
+          </div>
         </div>
-        <div className={styles.dropDownContainers}>
-          <RotanaMultiSelect
-            label="Department"
-            options={departmentDropdownOptions}
-            multiSelect={true}
-            selectedKeys={selectedDepartment}
-            onChange={(value) =>
-              this.setState({ selectedDepartment: value as string[] })
-            }
-          />
-        </div>
-        <div className={styles.dropDownContainers}>
-          <RotanaMultiSelect
-            label="Standard"
-            options={standardDropdownOptions}
-            multiSelect={false}
-            selectedKeys={selectedStandard}
-            onChange={(value) => this.setState({ selectedStandard: value as string })}
-          />
-        </div>
-        <div className={styles.searchContainer}>
-          <input
-            type="text"
-            className={styles.searchBox}
-            placeholder="Search"
-          />
-          <button className={styles.searchButton}/>
-        </div>
-      </div>
-    );
-  }
+      );
+    } */
 
 }

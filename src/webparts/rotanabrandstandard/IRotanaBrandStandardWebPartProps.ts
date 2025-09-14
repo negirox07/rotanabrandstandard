@@ -5,4 +5,5 @@ export interface IRotanaBrandStandardWebPartProps {
   standards: string;
   bannerImgURL: string;
   bannerImgURL2: string;
+  brandStandardHeading: string;
 }
