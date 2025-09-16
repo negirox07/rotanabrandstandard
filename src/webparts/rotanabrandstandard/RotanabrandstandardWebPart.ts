@@ -34,7 +34,8 @@ export default class RotanabrandstandardWebPart extends BaseClientSideWebPart<IR
         departments: this.properties.departments ?? ListNames.Departments,
         standards: this.properties.standards ?? ListNames.Standards,
         configListName: this.properties.configListName ?? ListNames.ConfigurationList,
-        brandStandardHeading: this.properties.brandStandardHeading ?? BrandPageConstants.brandStandardHeading
+        brandStandardHeading: this.properties.brandStandardHeading ?? BrandPageConstants.brandStandardHeading,
+        brandStandards: this.properties.brandStandards ?? ListNames.BrandStandards
       }
     );
 
@@ -65,6 +66,7 @@ export default class RotanabrandstandardWebPart extends BaseClientSideWebPart<IR
         case 'brands': this.properties.brands = newValue; break;
         case 'departments': this.properties.departments = newValue; break;
         case 'standards': this.properties.standards = newValue; break;
+        case 'brandStandards' : this.properties.brandStandards = newValue; break;
         case 'bannerImgURL': this.properties.bannerImgURL = newValue; break;
       }
       // push new list value

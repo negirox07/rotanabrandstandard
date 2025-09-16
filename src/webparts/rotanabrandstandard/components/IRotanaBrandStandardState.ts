@@ -10,8 +10,8 @@ export interface IRotanaBrandStandardState {
     departMentListItems: Array<DepartmentModel>;
     standardListItems: Array<StandardModel>;
     brandDropdownOptions?: IReusableMultiSelectOption[];
-    departmentDropdownOptions?: IReusableMultiSelectOption[];
-    standardDropdownOptions?: IReusableMultiSelectOption[];
+    journeyDropDownOptions?: IReusableMultiSelectOption[];
+    touchPointOptions?: IReusableMultiSelectOption[];
     selectedBrand?: string;
     selectedDepartment?: string[];
     selectedStandard?: string;

@@ -3,7 +3,7 @@ import styles from './Rotanabrandstandard.module.scss';
 import { IRotanabrandstandardProps } from './IRotanabrandstandardProps';
 import { IRotanaBrandStandardState } from './IRotanaBrandStandardState';
 import { LogDetails } from '../../../models/LogDetails';
-import { toMultiDropdownOptions } from '../../../services/DepartmentHelper';
+import { toChoiceOptions, toMultiDropdownOptions } from '../../../services/DepartmentHelper';
 import { BrandPageConstants } from '../../../models/SPConstants';
 import { decryptQuery } from '../../../services/CryptoHelper';
 import { Utility } from '../../../services/Utility';
@@ -27,8 +27,8 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
       departMentListItems: [],
       standardListItems: [],
       brandDropdownOptions: [],
-      departmentDropdownOptions: [],
-      standardDropdownOptions: [],
+      journeyDropDownOptions: [],
+      touchPointOptions: [],
       selectedBrand: null,
       selectedBrandObj: null,
       selectedDepartment: [],
@@ -46,7 +46,7 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
   }
 
   private async loadData(): Promise<void> {
-    const { spHelper, webpartContext, configListName, brands, departments, standards } =
+    const { spHelper, webpartContext, configListName, brands, brandStandards } =
       this.props;
     try {
       const baseUrl = webpartContext.pageContext.web.absoluteUrl;
@@ -54,11 +54,12 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
       const endpoints = [
         `/_api/web/lists/getbytitle('${configListName}')/items?$top=4999&$select=Title,ConfigValue`,
         `/_api/web/lists/getbytitle('${brands}')/items?$top=4999&$select=Title,*`,
-        `/_api/web/lists/getbytitle('${departments}')/items?$top=4999&$select=Title,*`,
-        `/_api/web/lists/getbytitle('${standards}')/items?$top=4999&$select=Title,*`,
+        `/_api/web/lists/getbytitle('${brandStandards}')/items?$top=4999&$select=Title,*`,
+        `/_api/web/lists/getbytitle('${brandStandards}')/fields?$filter=EntityPropertyName eq 'Category'`,
+        `/_api/web/lists/getbytitle('${brandStandards}')/fields?$filter=EntityPropertyName eq 'Touchpoint'`
       ];
 
-      const [configRes, brandsRes, departmentsRes, standardsRes] = await Promise.all(
+      const [configRes, brandsRes, brandStandardsRes, journeyResp, touchPointResp] = await Promise.all(
         endpoints.map((endpoint) => spHelper.getListDataRecursive(baseUrl + endpoint, []))
       );
 
@@ -75,19 +76,17 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
         selectedBrandObj = decryptQuery(queryParams.brand) as BrandDTO;
         selectedBrand = selectedBrandObj?.Title?.toString() || null;
       }
-
+      console.log(brandStandardsRes);
+      console.log(journeyResp);
+      console.log(touchPointResp);
       this.setState({
         configItems,
         brandListItems: brandsRes || [],
-        departMentListItems: departmentsRes || [],
-        standardListItems: standardsRes || [],
         brandDropdownOptions: toMultiDropdownOptions(brandsRes),
-        departmentDropdownOptions: toMultiDropdownOptions(departmentsRes),
-        standardDropdownOptions: toMultiDropdownOptions(standardsRes),
+        journeyDropDownOptions: toChoiceOptions(journeyResp[0].Choices || []),
+        touchPointOptions: toChoiceOptions(touchPointResp[0].Choices || []),
         bannerTitle: getConfigValue(BrandPageConstants.LandingPageBannerTitle),
         bannerDescription: getConfigValue(BrandPageConstants.LandingPageBannerDescription),
-        hotelsTitle: getConfigValue(BrandPageConstants.LandingPageHotelsTitle),
-        hotelsDescription: getConfigValue(BrandPageConstants.LandingPageHotelsDescription),
         selectedBrand,
         selectedBrandObj,
         loading: false,
@@ -114,8 +113,8 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
       bannerDescription,
       loading,
       brandDropdownOptions,
-      departmentDropdownOptions,
-      standardDropdownOptions,
+      journeyDropDownOptions,
+      touchPointOptions,
       selectedBrand,
       selectedDepartment,
       selectedStandard,
@@ -151,11 +150,11 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
             selectedBrand={selectedBrand}
             onBrandChange={(value) => this.setState({ selectedBrand: value })}
 
-            departmentDropdownOptions={departmentDropdownOptions}
+            departmentDropdownOptions={journeyDropDownOptions}
             selectedDepartment={selectedDepartment}
             onDepartmentChange={(value) => this.setState({ selectedDepartment: value })}
 
-            standardDropdownOptions={standardDropdownOptions}
+            standardDropdownOptions={touchPointOptions}
             selectedStandard={selectedStandard}
             onStandardChange={(value) => this.setState({ selectedStandard: value })}
 

@@ -25,3 +25,6 @@ export const toDropdownOptions = (items: any[]): IDropdownOption[] =>
 
 export const toMultiDropdownOptions = (items: any[]): IReusableMultiSelectOption[] =>
   (items || []).map((b) => ({ value: b.ID.toString(), label: b.Title }));
+
+export const toChoiceOptions = (items: any[]): IReusableMultiSelectOption[] =>
+  (items || []).map((b) => ({ value: b, label: b }));
