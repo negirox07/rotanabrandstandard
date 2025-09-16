@@ -38,7 +38,7 @@ const FilterBar: React.FC<IFilterBarProps> = ({
             </div>
             <div className={styles.dropDownContainers}>
                 <RotanaMultiSelect
-                    label="Standard"
+                    label="Touchpoint"
                     options={standardDropdownOptions}
                     multiSelect={false}
                     selectedKeys={selectedStandard}

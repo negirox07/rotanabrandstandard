@@ -4,6 +4,7 @@ export const ListNames = {
   Brands: 'Brand',
   Departments: 'Department',
   Standards: 'Standard',
+  BrandStandards:'BrandStandards',
   LogList: 'Rotana Log Details',
 }
 export const BrandPageConstants = {
