@@ -23,6 +23,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-select": "^5.10.2",
+    "react-tabs": "^4.3.0",
     "tslib": "2.3.1"
   },
   "devDependencies": {

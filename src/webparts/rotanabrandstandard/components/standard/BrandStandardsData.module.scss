@@ -1,0 +1,129 @@
+/* Table */
+.tableWrapper {
+    overflow-x: auto;
+}
+
+.standardTable {
+    width: 100%;
+    border-collapse: collapse;
+    caption-side: bottom;
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1rem;
+    vertical-align: top;
+}
+
+.standardTableThead {
+    background: #005595 !important;
+    color: #fff;
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.standardTableTd {
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.sectionTitle {
+    color: #005595;
+    font-size: 22px;
+    margin-bottom: 12px;
+}
+
+/* Priorities */
+.priorityCritical {
+    color: #c12828;
+}
+
+.priorityImportant {
+    color: #e8b159;
+}
+
+.priorityStandard {
+    color: #29a139;
+}
+
+/* Expand Collapse */
+.toggleBtn {
+    border: none;
+    background: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: #005595;
+}
+
+.expandContent {
+    padding: 2%;
+    border-left: 4px solid #0d6efd;
+    background: #ffffff;
+    border-radius: 0.5rem;
+    margin: 0.8rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.expandContentH6 {
+    font-size: 1rem;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+/* Related Docs */
+.relatedDoc {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 13px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin: 4px;
+    display: inline-block;
+}
+
+.fileIcon {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background-size: cover;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+
+.relatedDocs {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin-right: 8px;
+    margin-top: 1%;
+    display: inline-block;
+}
+
+@media (max-width: 768px) {
+
+    .brandStandardRow {
+        display: block;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .brandStandardCell {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px;
+    }
+
+    .brandStandardCell::before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-right: 10px;
+        color: #005595;
+    }
+}

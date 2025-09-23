@@ -27,7 +27,7 @@ const FilterBar: React.FC<IFilterBarProps> = ({
                     onChange={(value) => onBrandChange(value as string)}
                 />
             </div>
-            <div className={styles.dropDownContainers}>
+            {/* <div className={styles.dropDownContainers} style={{display:'none'}}>
                 <RotanaMultiSelect
                     label="Journey"
                     options={departmentDropdownOptions}
@@ -35,7 +35,7 @@ const FilterBar: React.FC<IFilterBarProps> = ({
                     selectedKeys={selectedDepartment}
                     onChange={(value) => onDepartmentChange(value as string[])}
                 />
-            </div>
+            </div> */}
             <div className={styles.dropDownContainers}>
                 <RotanaMultiSelect
                     label="Touchpoint"

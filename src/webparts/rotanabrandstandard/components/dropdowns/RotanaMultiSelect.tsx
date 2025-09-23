@@ -1,31 +1,42 @@
 import * as React from "react";
-
-import Select from 'react-select';
+import Select, { MultiValue, SingleValue } from "react-select";
 import { IReusableMultiSelectProps } from "./IReusableSelectProps";
 
 export const RotanaMultiSelect: React.FC<IReusableMultiSelectProps> = ({
-    label,
-    options,
-    multiSelect = false,
-    selectedKeys,
-    onChange,
+  label,
+  options,
+  multiSelect = false,
+  selectedKeys,
+  onChange,
 }) => {
-    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-        if (multiSelect) {
-            const values = Array.from(event.target.selectedOptions, (opt) => opt.value);
-            onChange(values);
-        } else {
-            onChange(event.target.value);
-        }
-    };
-    console.log('options', options);
-    return (<><Select
-        defaultValue
+  // Derive selected values
+  const selectedValue = multiSelect
+    ? options.filter((opt) => Array.isArray(selectedKeys) && selectedKeys.includes(opt.label))
+    : options.find((opt) => !Array.isArray(selectedKeys) && opt.label === selectedKeys);
+
+  // Handle react-select change
+  const handleChange = (
+    selected: MultiValue<{ value: string; label: string }> | SingleValue<{ value: string; label: string }>
+  ) => {
+    if (multiSelect) {
+      const values = (selected as MultiValue<{ value: string; label: string }>).map((s) => s.value);
+      onChange(values); // string[]
+    } else {
+      const value = (selected as SingleValue<{ value: string; label: string }>)?.value || "";
+      onChange(value); // string
+    }
+  };
+
+  return (
+    <div>
+      <Select
         isMulti={multiSelect}
         name={label}
-        label={label}
         placeholder={`Select ${label}`}
         options={options}
-        handleChange={handleChange}
-    /></>)
+        value={selectedValue}
+        onChange={handleChange}
+      />
+    </div>
+  );
 };

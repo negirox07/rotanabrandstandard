@@ -59,5 +59,38 @@ export class Utility {
     const formattedDate = formatter.format(date);
     return formattedDate;
   }
+  public static formatDateToLocale(date: Date | string | null | undefined): string {
+    if (!date) return "";
 
+    // Ensure it's a Date object
+    const d = typeof date === "string" ? new Date(date) : date;
+
+    if (isNaN(d.getTime())) return "";
+
+    let formatted = d.toLocaleDateString("en-US", {
+      month: "short", // Sep
+      day: "2-digit", // 22
+      year: "numeric", // 2025
+    });
+    return formatted;
+  }
+  public static getIcon(url: string): string {
+    if (!url) return "";
+
+    // Remove query parameters
+    const cleanUrl = url.split("?")[0];
+
+    // Extract file name
+    const fileName = decodeURIComponent(cleanUrl.split("/").pop() || "");
+
+    // Get file extension
+    const ext = fileName.split(".").pop()?.toLowerCase();
+
+    // Fallback if no extension found
+    if (!ext) {
+      return "/_layouts/15/images/icgen.png"; // generic icon
+    }
+
+    return `/_layouts/15/images/ic${ext}.png`;
+  }
 }

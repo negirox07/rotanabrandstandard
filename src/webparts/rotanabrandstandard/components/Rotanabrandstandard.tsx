@@ -11,11 +11,11 @@ import { BrandDTO } from '../../../models/BrandModel';
 import { ConfigItem } from '../../../models/ConfigModel';
 import BannerSection from './banner/BannerSection';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react';
-/* import { RotanaMultiSelect } from './dropdowns/RotanaMultiSelect';
-import { IReusableMultiSelectOption } from './dropdowns/IReusableSelectProps'; */
 import BrandCard from './brand/SelectedBrandCard';
 import FilterBar from './filters/FilterBar';
-
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+import BrandStandardsData from './standard/BrandStandardsData';
 export default class Rotanabrandstandard extends React.Component<IRotanabrandstandardProps, IRotanaBrandStandardState> {
   private readonly LOG_SOURCE = "📝 RotanaBrandStandard";
   private readonly bannerId = `banner_${Math.random().toString(36).substring(2, 15)}`;
@@ -24,9 +24,12 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
     this.state = {
       configItems: [],
       brandListItems: [],
+      brandStandardListItems: [],
       departMentListItems: [],
       standardListItems: [],
+      brandStandardListItemsCopy: [],
       brandDropdownOptions: [],
+      tabsData: [],
       journeyDropDownOptions: [],
       touchPointOptions: [],
       selectedBrand: null,
@@ -40,6 +43,7 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
       hotelsDescription: "",
       loading: true,
     };
+    this.OnSearch = this.OnSearch.bind(this);
   }
   async componentDidMount(): Promise<void> {
     await this.loadData();
@@ -76,14 +80,18 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
         selectedBrandObj = decryptQuery(queryParams.brand) as BrandDTO;
         selectedBrand = selectedBrandObj?.Title?.toString() || null;
       }
-      console.log(brandStandardsRes);
-      console.log(journeyResp);
-      console.log(touchPointResp);
+      const journeys = [];
+      const journeysDropDownOptions = toChoiceOptions([...journeyResp[0].Choices]);
+      journeys.push('All', ...journeyResp[0].Choices);
+      const brandStandardListItemsCopy = JSON.parse(JSON.stringify(brandStandardsRes));
       this.setState({
         configItems,
         brandListItems: brandsRes || [],
+        brandStandardListItems: brandStandardsRes || [],
         brandDropdownOptions: toMultiDropdownOptions(brandsRes),
-        journeyDropDownOptions: toChoiceOptions(journeyResp[0].Choices || []),
+        journeyDropDownOptions: journeysDropDownOptions,
+        brandStandardListItemsCopy:brandStandardListItemsCopy,
+        tabsData: journeys,
         touchPointOptions: toChoiceOptions(touchPointResp[0].Choices || []),
         bannerTitle: getConfigValue(BrandPageConstants.LandingPageBannerTitle),
         bannerDescription: getConfigValue(BrandPageConstants.LandingPageBannerDescription),
@@ -106,6 +114,37 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
     };
     await this.props.spHelper.writeLog(this.props, log);
   }
+
+  private GetJourneyCount(x: string): number {
+    const brandStandardData = this.state.brandStandardListItems || [];
+    if (x === 'All') return brandStandardData.length;
+    return brandStandardData.filter(y => y.Category === x).length;
+  }
+  private OnSearch(): void {
+    const {
+      selectedStandard,
+      selectedBrand,
+      brandListItems,
+      searchText
+    } = this.state;
+    const brands = [...this.state.brandStandardListItemsCopy];
+    if (searchText.length === 0) {
+      this.setState({ brandStandardListItems: brands });
+      return;
+    }
+    const selectedbrandId = brandListItems.find(x=>x.Title.toLowerCase() === selectedBrand.toLowerCase());
+    const filteredBrands = brands.filter(brand =>
+      brand.AssociatedToId?.includes(selectedbrandId?.ID) &&
+      brand.Touchpoint?.toLowerCase().includes(selectedStandard.toLowerCase())
+      || (brand.RefNo?.toLowerCase().includes(searchText.toLowerCase()) ||
+        brand.Category?.toLowerCase().includes(searchText.toLowerCase()) ||
+        brand.Touchpoint?.toLowerCase().includes(searchText.toLowerCase())
+        || brand.Title?.toLowerCase().includes(searchText.toLowerCase()) ||
+        brand.Standard?.toLowerCase().includes(searchText.toLowerCase())
+      )
+    );
+    this.setState({ brandStandardListItems: filteredBrands });
+  }
   public render(): React.ReactElement<IRotanabrandstandardProps> {
     const {
       configItems,
@@ -114,12 +153,15 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
       loading,
       brandDropdownOptions,
       journeyDropDownOptions,
+      tabsData,
       touchPointOptions,
+      brandStandardListItems,
       selectedBrand,
       selectedDepartment,
       selectedStandard,
       selectedBrandObj
     } = this.state;
+    const tabClass = `react-tabs__tab ${styles.categoryFiltersLink}`
     if (loading) {
       return (
         <Spinner label="Loading ..." size={SpinnerSize.large} />
@@ -143,8 +185,6 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
         <div id="mainContent">
           {selectedBrandObj && <BrandCard brand={selectedBrandObj} />}
           <div className={styles.bottomLine} />
-          {/*    {this.renderFilterDropDownsAndTextBox(brandDropdownOptions, selectedBrand, departmentDropdownOptions, selectedDepartment, standardDropdownOptions, selectedStandard)}
-          */}
           <FilterBar
             brandDropdownOptions={brandDropdownOptions}
             selectedBrand={selectedBrand}
@@ -160,71 +200,39 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
 
             searchText={this.state.searchText}
             onSearchChange={(value) => this.setState({ searchText: value })}
-            onSearchClick={() => console.log("Search clicked")}
+            onSearchClick={this.OnSearch}
           />
           <h5 className={styles.brandh5}>{this.props.brandStandardHeading}</h5>
           <div className={styles.bgLight}>
-            <nav className={styles.categoryFilters}>
-              <a href="#" className={styles.categoryFiltersLink + ' ' + styles.categoryFiltersLinkActive}>All <span>85</span></a>
-              <a href="#" className={styles.categoryFiltersLink}>Housekeeping <span className={styles.categoryFiltersBadge}>15</span></a>
-            </nav>
+            {!loading &&
+              <Tabs>
+                <TabList className={styles.categoryFilters}>
+                  {
+                    tabsData.map(
+                      x => {
+                        return (<Tab className={tabClass}
+                          selectedClassName={styles.categoryFiltersLinkActive}>
+                          {x}<span className={styles.categoryFiltersBadge}>{this.GetJourneyCount(x)}</span>
+                        </Tab>)
+                      }
+                    )
+                  }
+                </TabList>
+                {
+                  tabsData.map(
+                    x => {
+                      return (<TabPanel>
+                        <BrandStandardsData journeyName={x} brandStandardModel={brandStandardListItems} />
+                      </TabPanel>)
+                    }
+                  )
+                }
+              </Tabs>
+            }
           </div>
         </div>
 
       </section>
     );
   }
-
-  /*   private renderFilterDropDownsAndTextBox(
-      brandDropdownOptions: IReusableMultiSelectOption[],
-      selectedBrand: string,
-      departmentDropdownOptions: IReusableMultiSelectOption[],
-      selectedDepartment: string[],
-      standardDropdownOptions: IReusableMultiSelectOption[],
-      selectedStandard: string
-    ): React.ReactNode {
-      return (
-        <div className={styles.filterContainer}>
-          <div className={styles.dropDownContainers}>
-  
-            <RotanaMultiSelect
-              label="Brand"
-              options={brandDropdownOptions}
-              multiSelect={false}
-              selectedKeys={selectedBrand || ""}
-              onChange={(value) => this.setState({ selectedBrand: value as string })}
-            />
-          </div>
-          <div className={styles.dropDownContainers}>
-            <RotanaMultiSelect
-              label="Department"
-              options={departmentDropdownOptions}
-              multiSelect={true}
-              selectedKeys={selectedDepartment}
-              onChange={(value) =>
-                this.setState({ selectedDepartment: value as string[] })
-              }
-            />
-          </div>
-          <div className={styles.dropDownContainers}>
-            <RotanaMultiSelect
-              label="Standard"
-              options={standardDropdownOptions}
-              multiSelect={false}
-              selectedKeys={selectedStandard}
-              onChange={(value) => this.setState({ selectedStandard: value as string })}
-            />
-          </div>
-          <div className={styles.searchContainer}>
-            <input
-              type="text"
-              className={styles.searchBox}
-              placeholder="Search"
-            />
-            <button className={styles.searchButton} />
-          </div>
-        </div>
-      );
-    } */
-
 }

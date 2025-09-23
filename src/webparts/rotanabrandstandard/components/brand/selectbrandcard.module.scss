@@ -59,3 +59,21 @@
 .brandCardValueBold {
     font-weight: 700;
 }
+
+@media (max-width: 480px) {
+  .brandCard {
+    flex-direction: column;
+  }
+
+  .brandCardRight {
+    text-align: left;
+  }
+}
+
+/* Responsive Fixes */
+@media (max-width: 992px) {
+  .brandCardRight {
+    justify-content: flex-start;
+    text-align: left;
+  }
+}

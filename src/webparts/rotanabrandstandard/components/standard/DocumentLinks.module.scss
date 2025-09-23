@@ -1,0 +1,28 @@
+.relatedDocs {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin-right: 8px;
+    margin-top: 1%;
+    display: inline-block;
+}
+
+.fileIcon {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background-size: cover;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.expandContentH6 {
+    font-size: 1rem;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    font-weight: 500;
+    line-height: 1.2;
+}

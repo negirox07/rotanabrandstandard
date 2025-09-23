@@ -9,7 +9,7 @@ export const ListNames = {
 }
 export const BrandPageConstants = {
   Brands: 'Brands',
-  Departments: 'Departments',
+  Departments: 'Journeys',
   Standards: 'Standards',
   StandardsLimit: 400,
   ReidrectPage:'BrandStandardPortal.aspx',
