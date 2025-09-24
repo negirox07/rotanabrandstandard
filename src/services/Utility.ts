@@ -59,7 +59,7 @@ export class Utility {
     const formattedDate = formatter.format(date);
     return formattedDate;
   }
-  public static formatDateToLocale(date: Date | string | null | undefined): string {
+  public static formatDateToLocale(date: Date | string | undefined): string {
     if (!date) return "";
 
     // Ensure it's a Date object
@@ -67,7 +67,7 @@ export class Utility {
 
     if (isNaN(d.getTime())) return "";
 
-    let formatted = d.toLocaleDateString("en-US", {
+    const formatted = d.toLocaleDateString("en-US", {
       month: "short", // Sep
       day: "2-digit", // 22
       year: "numeric", // 2025

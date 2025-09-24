@@ -16,7 +16,7 @@ const BannerSection: React.FC<{
 }) => {
     console.log('Banner image URLs:', bannerImageURL, bannerImageURL2);
     return (
-      <div className={styles.header} id={bannerId} style={{ backgroundImage: `url('${bannerImageURL}'), url('${bannerImageURL2}') , linear-gradient(to right, #064c8c, #116bb7)` }}>
+      <div className={styles.header} id={bannerId} style={{ backgroundImage: `url('${bannerImageURL}'), url('${bannerImageURL2}') , linear-gradient(to right, #202020, #202020)` }}>
         <h1 className={styles.headerh1}>{bannerTitle}</h1>
         <p className={styles.headerP}>{bannerDescription}</p>
       </div>

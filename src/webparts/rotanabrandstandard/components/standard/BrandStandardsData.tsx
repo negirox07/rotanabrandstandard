@@ -66,7 +66,7 @@ const BrandStandardsData: React.FC<IBrandStandardsData> = ({
   const data =
     journeyName === "All"
       ? [...brandStandardModel]
-      : brandStandardModel.filter((x) => x.Category === journeyName);
+      : brandStandardModel.filter((x) => x.Category?.trim().toLowerCase() === journeyName.toLowerCase());
 
   return (
     <div>
