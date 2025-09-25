@@ -1,6 +1,7 @@
 import { BrandStandardModel } from "../../../../models/BrandStandardModel";
 
 export interface IBrandStandardsData{
-   journeyName:string,
-   brandStandardModel: BrandStandardModel[]
+   journeyName:string;
+   brandStandardModel: BrandStandardModel[];
+   enableTitle:boolean;
 }
