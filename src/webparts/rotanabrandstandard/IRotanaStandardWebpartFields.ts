@@ -21,7 +21,7 @@ export const textFields = [
 export const dropDowns = [
     { key: 'configListName', label: 'Select Configuration list' },
     { key: 'brands', label: 'Select brands list' },
-    { key: 'departments', label: 'Select departments list' },
-    { key: 'standards', label: 'Select standards list' },
+   // { key: 'departments', label: 'Select departments list' },
+   // { key: 'standards', label: 'Select standards list' },
     { key: 'brandStandards', label: 'Select Brand Standards List' }
 ]

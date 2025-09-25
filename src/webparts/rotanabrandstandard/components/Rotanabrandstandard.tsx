@@ -81,18 +81,18 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
         selectedBrand = selectedBrandObj?.Title?.toString() || null;
       }
       const journeys = [];
-      const journeysDropDownOptions = toChoiceOptions([...journeyResp[0].Choices]);
+      const journeysDropDownOptions = (toChoiceOptions([...journeyResp[0].Choices])).sort((a, b) => a.label.localeCompare(b.label));
       journeys.push('All', ...journeyResp[0].Choices);
       const brandStandardListItemsCopy = JSON.parse(JSON.stringify(brandStandardsRes));
       this.setState({
         configItems,
         brandListItems: brandsRes || [],
         brandStandardListItems: brandStandardsRes || [],
-        brandDropdownOptions: toMultiDropdownOptions(brandsRes),
+        brandDropdownOptions: toMultiDropdownOptions(brandsRes).sort((a, b) => a.label.localeCompare(b.label)),
         journeyDropDownOptions: journeysDropDownOptions,
         brandStandardListItemsCopy:brandStandardListItemsCopy,
         tabsData: journeys,
-        touchPointOptions: toChoiceOptions(touchPointResp[0].Choices || []),
+        touchPointOptions: toChoiceOptions(touchPointResp[0].Choices?.sort() || []),
         bannerTitle: getConfigValue(BrandPageConstants.LandingPageBannerTitle),
         bannerDescription: getConfigValue(BrandPageConstants.LandingPageBannerDescription),
         selectedBrand,
@@ -118,7 +118,7 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
   private GetJourneyCount(x: string): number {
     const brandStandardData = this.state.brandStandardListItems || [];
     if (x === 'All') return brandStandardData.length;
-    return brandStandardData.filter(y => y.Category === x).length;
+    return brandStandardData.filter(y => y.Category?.trim().toLowerCase() === x.toLowerCase()).length;
   }
   private OnSearch(): void {
     const {
@@ -161,6 +161,7 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
       selectedStandard,
       selectedBrandObj
     } = this.state;
+    const component = this;
     const tabClass = `react-tabs__tab ${styles.categoryFiltersLink}`
     if (loading) {
       return (
@@ -188,19 +189,18 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
           <FilterBar
             brandDropdownOptions={brandDropdownOptions}
             selectedBrand={selectedBrand}
-            onBrandChange={(value) => this.setState({ selectedBrand: value })}
+            onBrandChange={(value) => component.setState({ selectedBrand: value })}
 
             departmentDropdownOptions={journeyDropDownOptions}
             selectedDepartment={selectedDepartment}
-            onDepartmentChange={(value) => this.setState({ selectedDepartment: value })}
+            onDepartmentChange={(value) => component.setState({ selectedDepartment: value })}
 
             standardDropdownOptions={touchPointOptions}
             selectedStandard={selectedStandard}
-            onStandardChange={(value) => this.setState({ selectedStandard: value })}
-
+            onStandardChange={(value) => component.setState({ selectedStandard: value })}
             searchText={this.state.searchText}
-            onSearchChange={(value) => this.setState({ searchText: value })}
-            onSearchClick={this.OnSearch}
+            onSearchChange={(value) => component.setState({ searchText: value })}
+            onSearchClick={component.OnSearch}
           />
           <h5 className={styles.brandh5}>{this.props.brandStandardHeading}</h5>
           <div className={styles.bgLight}>
@@ -210,7 +210,7 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
                   {
                     tabsData.map(
                       x => {
-                        return (<Tab className={tabClass}
+                        return (<Tab className={tabClass} key={Utility.GetUniqueId()}
                           selectedClassName={styles.categoryFiltersLinkActive}>
                           {x}<span className={styles.categoryFiltersBadge}>{this.GetJourneyCount(x)}</span>
                         </Tab>)
@@ -221,7 +221,7 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
                 {
                   tabsData.map(
                     x => {
-                      return (<TabPanel>
+                      return (<TabPanel key={Utility.GetUniqueId()}>
                         <BrandStandardsData journeyName={x} brandStandardModel={brandStandardListItems} />
                       </TabPanel>)
                     }
