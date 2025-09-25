@@ -6,23 +6,24 @@ import { Utility } from "../../../../services/Utility";
 import { BrandStandardModel } from "../../../../models/BrandStandardModel";
 import DocumentLinks from "./DocumentLinks";
 
-const GetHeaders = (
-  <thead className={styles.standardTableThead}>
+
+function RenderHeaders(enableTitle: boolean) : React.ReactElement {
+  return <thead className={styles.standardTableThead}>
     <tr>
       <th className={styles.standardTableTd}>Ref.</th>
       <th className={styles.standardTableTd}>Journey</th>
       <th className={styles.standardTableTd}>Touchpoint</th>
-{/*       <th className={styles.standardTableTd}>Title</th> */}
+      {enableTitle && <th className={styles.standardTableTd}>Title</th>}
       <th className={styles.standardTableTd}>Last Updated</th>
       <th className={styles.standardTableTd}>Expand/Collapse</th>
     </tr>
-  </thead>
-);
-
+  </thead>;
+}
 function BrandDetailsRow(
   x: BrandStandardModel,
   toggleRow: (id: string) => void,
-  openRows: Set<string>
+  openRows: Set<string>,
+  enableTitle: boolean
 ): JSX.Element {
   const isOpen = openRows.has(x.GUID);
 
@@ -31,7 +32,7 @@ function BrandDetailsRow(
       <td className={styles.standardTableTd}>{x.RefNo || ""}</td>
       <td className={styles.standardTableTd}>{x.Category || ""}</td>
       <td className={styles.standardTableTd}>{x.Touchpoint || ""}</td>
-   {/*    <td className={styles.standardTableTd} style={{ display: "none" }}>{x.Title || ""}</td> */}
+      {enableTitle && <td className={styles.standardTableTd}>{x.Title || ""}</td>}
       <td className={styles.standardTableTd}>
         {Utility.formatDateToLocale(x.Modified)}
       </td>
@@ -43,10 +44,27 @@ function BrandDetailsRow(
     </tr>
   );
 }
+function RenderRows(enableTitle: boolean, x: BrandStandardModel): React.ReactNode {
+  return <tr>
+    <td colSpan={6}>
+      <div className={styles.expandContent}>
+        <h6
+          className={styles.expandContentH6}
+          style={{ display: "none" }}
+        >
+          {enableTitle && <strong>{x.Title}</strong>}
+        </h6>
+        <p>{x.Standard}</p>
+        <DocumentLinks documents={x.RelatedDocuments} />
+      </div>
+    </td>
+  </tr>;
+}
 
 const BrandStandardsData: React.FC<IBrandStandardsData> = ({
   journeyName,
   brandStandardModel,
+  enableTitle
 }) => {
   // Track multiple open rows
   const [openRows, setOpenRows] = useState<Set<string>>(new Set());
@@ -72,30 +90,14 @@ const BrandStandardsData: React.FC<IBrandStandardsData> = ({
     <div>
       <div className={styles.tableWrapper}>
         <table className={styles.standardTable}>
-          {GetHeaders}
+          {RenderHeaders(enableTitle)}
           <tbody>
             {data.map((x) => {
               const isOpen = openRows.has(x.GUID);
-
               return (
                 <React.Fragment key={x.GUID}>
-                  {BrandDetailsRow(x, toggleRow, openRows)}
-                  {isOpen && (
-                    <tr>
-                      <td colSpan={6}>
-                        <div className={styles.expandContent}>
-                          <h6
-                            className={styles.expandContentH6}
-                            style={{ display: "none" }}
-                          >
-                            <strong>{x.Title}</strong>
-                          </h6>
-                          <p>{x.Standard}</p>
-                          <DocumentLinks documents={x.RelatedDocuments} />
-                        </div>
-                      </td>
-                    </tr>
-                  )}
+                  {BrandDetailsRow(x, toggleRow, openRows, enableTitle)}
+                  {isOpen && (RenderRows(enableTitle, x))}
                 </React.Fragment>
               );
             })}
@@ -107,3 +109,4 @@ const BrandStandardsData: React.FC<IBrandStandardsData> = ({
 };
 
 export default BrandStandardsData;
+

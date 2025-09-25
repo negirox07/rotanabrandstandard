@@ -7,4 +7,5 @@ export interface IRotanaBrandStandardWebPartProps {
   bannerImgURL: string;
   bannerImgURL2: string;
   brandStandardHeading: string;
+  enableTitle:boolean;
 }

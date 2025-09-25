@@ -5,7 +5,8 @@ import {
   IPropertyPaneConfiguration,
   IPropertyPaneDropdownOption,
   PropertyPaneDropdown,
-  PropertyPaneTextField
+  PropertyPaneTextField,
+  PropertyPaneToggle
 } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
 import { IODataList } from '@microsoft/sp-odata-types';
@@ -35,7 +36,8 @@ export default class RotanabrandstandardWebPart extends BaseClientSideWebPart<IR
         standards: this.properties.standards ?? ListNames.Standards,
         configListName: this.properties.configListName ?? ListNames.ConfigurationList,
         brandStandardHeading: this.properties.brandStandardHeading ?? BrandPageConstants.brandStandardHeading,
-        brandStandards: this.properties.brandStandards ?? ListNames.BrandStandards
+        brandStandards: this.properties.brandStandards ?? ListNames.BrandStandards,
+        enableTitle:this.properties.enableTitle ?? false
       }
     );
 
@@ -105,7 +107,11 @@ export default class RotanabrandstandardWebPart extends BaseClientSideWebPart<IR
                     value: field.value,
                     placeholder: field.placeholder
                   })
-                )
+                ),
+                PropertyPaneToggle('enableTitle',{
+                  onText:'Add the title in a view',
+                  offText:'Disable the title from a view'                  
+                })
               ]
             }
           ]

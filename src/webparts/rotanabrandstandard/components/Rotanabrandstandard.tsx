@@ -222,7 +222,7 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
                   tabsData.map(
                     x => {
                       return (<TabPanel key={Utility.GetUniqueId()}>
-                        <BrandStandardsData journeyName={x} brandStandardModel={brandStandardListItems} />
+                        <BrandStandardsData journeyName={x} brandStandardModel={brandStandardListItems} enableTitle={this.props.enableTitle} />
                       </TabPanel>)
                     }
                   )
