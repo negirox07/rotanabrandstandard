@@ -14,7 +14,8 @@ const FilterBar: React.FC<IFilterBarProps> = ({
     onStandardChange,
     searchText,
     onSearchChange,
-    onSearchClick
+    onSearchClick,
+    onClear
 }) => {
     return (
         <div className={styles.filterContainer}>
@@ -53,7 +54,9 @@ const FilterBar: React.FC<IFilterBarProps> = ({
                     value={searchText ?? ''}
                     onChange={(e) => onSearchChange(e.target.value)}
                 />
-                <button className={styles.searchButton} onClick={onSearchClick} />
+                <button className={styles.searchButton} onClick={onSearchClick} title="Search Standards"/>
+                <button className={styles.clearButton} onClick={onClear} title="Clear filters">X</button>
+
             </div>
         </div>
     );
