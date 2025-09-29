@@ -12,6 +12,7 @@
 .searchContainer {
   display: flex;
   flex-grow: 1;
+  margin-top: 1.7%;
   /* takes remaining width */
 }
 
@@ -41,4 +42,15 @@
   margin-left: -16px;
   flex-shrink: 0;
   cursor: pointer;
+}
+.clearButton {
+  background-color: #202020;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #202020;
+  border-radius: 12px;
+  color: white;
+  flex-shrink: 0;
+  cursor: pointer;
+  margin-left: 1%;
 }

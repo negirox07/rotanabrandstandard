@@ -1,7 +1,7 @@
 import * as React from "react";
 import Select, { MultiValue, SingleValue } from "react-select";
 import { IReusableMultiSelectProps } from "./IReusableSelectProps";
-
+import styles from './rotanadropdowns.module.scss';
 export const RotanaMultiSelect: React.FC<IReusableMultiSelectProps> = ({
     label,
     options,
@@ -29,6 +29,7 @@ export const RotanaMultiSelect: React.FC<IReusableMultiSelectProps> = ({
 
     return (
         <div>
+            <label className={styles.filterHeadings}>{label}</label>
             <Select
                 isMulti={multiSelect}
                 name={label}
@@ -38,6 +39,7 @@ export const RotanaMultiSelect: React.FC<IReusableMultiSelectProps> = ({
                 onChange={handleChange}
                 menuPortalTarget={document.body}
                 menuPosition="fixed"
+                label={label}
             />
         </div>
     );

@@ -44,6 +44,11 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
       loading: true,
     };
     this.OnSearch = this.OnSearch.bind(this);
+    this.OnSelectedTouchPoint = this.OnSelectedTouchPoint.bind(this);
+    this.OnSelectedBrand = this.OnSelectedBrand.bind(this);
+    this.OnSelectedJourney = this.OnSelectedJourney.bind(this);
+    this.SetSearchText = this.SetSearchText.bind(this);
+    this.OnClear = this.OnClear.bind(this);
   }
   async componentDidMount(): Promise<void> {
     await this.loadData();
@@ -84,15 +89,16 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
       const journeysDropDownOptions = (toChoiceOptions([...journeyResp[0].Choices])).sort((a, b) => a.label.localeCompare(b.label));
       journeys.push('All', ...journeyResp[0].Choices);
       const brandStandardListItemsCopy = JSON.parse(JSON.stringify(brandStandardsRes));
+      const touchPointOptions = toChoiceOptions(['All', ...touchPointResp[0].Choices.sort()]);
       this.setState({
         configItems,
         brandListItems: brandsRes || [],
         brandStandardListItems: brandStandardsRes || [],
         brandDropdownOptions: toMultiDropdownOptions(brandsRes).sort((a, b) => a.label.localeCompare(b.label)),
         journeyDropDownOptions: journeysDropDownOptions,
-        brandStandardListItemsCopy:brandStandardListItemsCopy,
+        brandStandardListItemsCopy: brandStandardListItemsCopy,
         tabsData: journeys,
-        touchPointOptions: toChoiceOptions(touchPointResp[0].Choices?.sort() || []),
+        touchPointOptions: touchPointOptions,
         bannerTitle: getConfigValue(BrandPageConstants.LandingPageBannerTitle),
         bannerDescription: getConfigValue(BrandPageConstants.LandingPageBannerDescription),
         selectedBrand,
@@ -120,30 +126,70 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
     if (x === 'All') return brandStandardData.length;
     return brandStandardData.filter(y => y.Category?.trim().toLowerCase() === x.toLowerCase()).length;
   }
-  private OnSearch(): void {
+  private applyFilters(): void {
     const {
-      selectedStandard,
-      selectedBrand,
+      brandStandardListItemsCopy,
       brandListItems,
+      selectedBrand,
+      selectedStandard,
       searchText
     } = this.state;
-    const brands = [...this.state.brandStandardListItemsCopy];
-    if (searchText.length === 0) {
-      this.setState({ brandStandardListItems: brands });
-      return;
+
+    let filtered = [...brandStandardListItemsCopy];
+
+    // Filter by Brand (if selected)
+    if (selectedBrand) {
+      const selectedBrandItem = brandListItems.find(
+        (x) => x.ID?.toString().toLowerCase() === selectedBrand.toLowerCase()
+      );
+      if (selectedBrandItem) {
+        filtered = filtered.filter((brand) =>
+          brand.AssociatedToId?.includes(selectedBrandItem.ID)
+        );
+      }
     }
-    const selectedbrandId = brandListItems.find(x=>x.Title.toLowerCase() === selectedBrand.toLowerCase());
-    const filteredBrands = brands.filter(brand =>
-      brand.AssociatedToId?.includes(selectedbrandId?.ID) &&
-      brand.Touchpoint?.toLowerCase().includes(selectedStandard.toLowerCase())
-      || (brand.RefNo?.toLowerCase().includes(searchText.toLowerCase()) ||
-        brand.Category?.toLowerCase().includes(searchText.toLowerCase()) ||
-        brand.Touchpoint?.toLowerCase().includes(searchText.toLowerCase())
-        || brand.Title?.toLowerCase().includes(searchText.toLowerCase()) ||
-        brand.Standard?.toLowerCase().includes(searchText.toLowerCase())
-      )
-    );
-    this.setState({ brandStandardListItems: filteredBrands });
+
+    // Filter by Touchpoint (if selected and not "All")
+    if (selectedStandard && selectedStandard.toLowerCase() !== "all") {
+      filtered = filtered.filter(
+        (brand) =>
+          brand.Touchpoint?.toLowerCase() === selectedStandard.toLowerCase()
+      );
+    }
+
+    // Filter by Search text
+    if (searchText && searchText.trim().length > 0) {
+      const text = searchText.toLowerCase();
+      filtered = filtered.filter(
+        (brand) =>
+          brand.RefNo?.toLowerCase().includes(text) ||
+          brand.Category?.toLowerCase().includes(text) ||
+          brand.Touchpoint?.toLowerCase().includes(text) ||
+          brand.Title?.toLowerCase().includes(text) ||
+          brand.Standard?.toLowerCase().includes(text)
+      );
+    }
+
+    this.setState({ brandStandardListItems: filtered });
+  }
+  private OnSearch(): void {
+    this.applyFilters();
+  }
+
+  private OnSelectedTouchPoint(value: string): void {
+    this.setState({ selectedStandard: value }, () => this.applyFilters());
+  }
+  private OnSelectedBrand(value: string): void {
+    this.setState({ selectedBrand: value }, () => this.applyFilters());
+  }
+  private OnSelectedJourney(value: string[]): void {
+    this.setState({ selectedDepartment: value }, () => this.applyFilters());
+  }
+  private SetSearchText(value: string): void {
+    this.setState({ searchText: value });
+  }
+  private OnClear(): void {
+    this.setState({ selectedStandard: "All", searchText: '' }, () => this.applyFilters());
   }
   public render(): React.ReactElement<IRotanabrandstandardProps> {
     const {
@@ -161,7 +207,6 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
       selectedStandard,
       selectedBrandObj
     } = this.state;
-    const component = this;
     const tabClass = `react-tabs__tab ${styles.categoryFiltersLink}`
     if (loading) {
       return (
@@ -189,18 +234,20 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
           <FilterBar
             brandDropdownOptions={brandDropdownOptions}
             selectedBrand={selectedBrand}
-            onBrandChange={(value) => component.setState({ selectedBrand: value })}
+            onBrandChange={this.OnSelectedBrand}
 
             departmentDropdownOptions={journeyDropDownOptions}
             selectedDepartment={selectedDepartment}
-            onDepartmentChange={(value) => component.setState({ selectedDepartment: value })}
+            onDepartmentChange={this.OnSelectedJourney}
 
             standardDropdownOptions={touchPointOptions}
             selectedStandard={selectedStandard}
-            onStandardChange={(value) => component.setState({ selectedStandard: value })}
+            onStandardChange={this.OnSelectedTouchPoint}
+
             searchText={this.state.searchText}
-            onSearchChange={(value) => component.setState({ searchText: value })}
-            onSearchClick={component.OnSearch}
+            onSearchChange={this.SetSearchText}
+            onSearchClick={this.OnSearch}
+            onClear={this.OnClear}
           />
           <h5 className={styles.brandh5}>{this.props.brandStandardHeading}</h5>
           <div className={styles.bgLight}>

@@ -16,4 +16,5 @@ export interface IFilterBarProps {
   searchText: string;
   onSearchChange: (value: string) => void;
   onSearchClick?: () => void;
+  onClear?: () => void;
 }
