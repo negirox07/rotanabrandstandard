@@ -80,20 +80,27 @@ export default class Rotanabrandstandard extends React.Component<IRotanabrandsta
       const queryParams = Utility.getQueryParams(window.location.href);
       let selectedBrand: string | null = null;
       let selectedBrandObj: BrandDTO | null = null;
-
+      let filtered = [...brandStandardsRes];
       if (queryParams.brand) {
         selectedBrandObj = decryptQuery(queryParams.brand) as BrandDTO;
         selectedBrand = selectedBrandObj?.Title?.toString() || null;
+        if (selectedBrandObj) {
+          filtered = filtered.filter((brand) =>
+            brand.AssociatedToId?.includes(selectedBrandObj.ID)
+          );
+        }
       }
       const journeys = [];
       const journeysDropDownOptions = (toChoiceOptions([...journeyResp[0].Choices])).sort((a, b) => a.label.localeCompare(b.label));
       journeys.push('All', ...journeyResp[0].Choices);
-      const brandStandardListItemsCopy = JSON.parse(JSON.stringify(brandStandardsRes));
+      const brandStandardListItemsCopy = JSON.parse(JSON.stringify(filtered));
       const touchPointOptions = toChoiceOptions(['All', ...touchPointResp[0].Choices.sort()]);
+      // Filter by Brand (if selected)
+
       this.setState({
         configItems,
         brandListItems: brandsRes || [],
-        brandStandardListItems: brandStandardsRes || [],
+        brandStandardListItems: filtered || [],
         brandDropdownOptions: toMultiDropdownOptions(brandsRes).sort((a, b) => a.label.localeCompare(b.label)),
         journeyDropDownOptions: journeysDropDownOptions,
         brandStandardListItemsCopy: brandStandardListItemsCopy,

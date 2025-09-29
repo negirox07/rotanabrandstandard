@@ -26,6 +26,7 @@ const FilterBar: React.FC<IFilterBarProps> = ({
                     multiSelect={false}
                     selectedKeys={selectedBrand || ""}
                     onChange={(value) => onBrandChange(value as string)}
+                    isDisabled={true}
                 />
             </div>
             {/* <div className={styles.dropDownContainers} style={{display:'none'}}>
