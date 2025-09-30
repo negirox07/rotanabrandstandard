@@ -20,5 +20,6 @@ export interface IReusableMultiSelectProps {
   options: IReusableMultiSelectOption[];
   multiSelect?: boolean;
   selectedKeys?: string[] | string;
+  isDisabled?: boolean;
   onChange: (selected: string[] | string) => void;
 }

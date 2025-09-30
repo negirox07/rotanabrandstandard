@@ -7,6 +7,7 @@ export const RotanaMultiSelect: React.FC<IReusableMultiSelectProps> = ({
     options,
     multiSelect = false,
     selectedKeys,
+    isDisabled = false,
     onChange,
 }) => {
     // Derive selected values
@@ -39,6 +40,7 @@ export const RotanaMultiSelect: React.FC<IReusableMultiSelectProps> = ({
                 onChange={handleChange}
                 menuPortalTarget={document.body}
                 menuPosition="fixed"
+                isDisabled={isDisabled}
                 label={label}
             />
         </div>
