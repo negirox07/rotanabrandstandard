@@ -27,6 +27,7 @@ function RenderHeaders(
                 ? "Click to collapse all rows"
                 : "Click to expand all rows"
             }
+            className={styles.expandCollapseHeader}
           >
             <input
               type="checkbox"

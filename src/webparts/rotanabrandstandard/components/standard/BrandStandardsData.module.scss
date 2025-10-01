@@ -45,6 +45,25 @@
 .priorityStandard {
     color: #29a139;
 }
+.expandCollapseHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* center inside the column */
+  gap: 6px; /* space between checkbox and text */
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+
+  input[type="checkbox"] {
+    margin: 0; /* remove browser default offset */
+    cursor: pointer;
+    transform: scale(1.1); /* slightly larger for clarity */
+  }
+
+  span {
+    line-height: 1.2;
+  }
+}
 
 /* Expand Collapse */
 .toggleBtn {
